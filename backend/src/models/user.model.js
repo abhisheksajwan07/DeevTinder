@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       lowercase: true,
       required: true,
-      unique: true,
+      unique: true, //it will automatically create index
       trim: true,
       validate(value) {
         if (!validator.isEmail(value)) {
@@ -36,7 +36,11 @@ const userSchema = new mongoose.Schema(
     },
     gender: {
       type: String,
-      enum: ["male", "female", "others"],
+      enum: {
+        values: ["male", "female", "others"],
+        message: `{value} is not a valid gender type`,
+      },
+
       // validate(value){
       //     if(!["male","female","others"].includes(value)){
       //         throw new Error ("Gender data isn't valid")
