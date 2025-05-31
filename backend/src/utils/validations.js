@@ -11,6 +11,7 @@ const validateSignUpData = (req) => {
 };
 
 const validateEditProfileData = (req) => {
+  const data = req.body
   const allowedEditFields = [
     "firstName",
     "lastName",
@@ -18,9 +19,15 @@ const validateEditProfileData = (req) => {
     "photoUrl",
     "gender",
     "age",
+    "about",
+    "skills",
   ];
-  const isEditAllowed = Object.key(req.body).every((field) =>
+  const isEditAllowed = Object.keys(req.body).every((field) =>
     allowedEditFields.includes(field)
   );
+  if (data.skills && Array.isArray(data.skills) && data.skills.length > 10) {
+    throw new Error("Skills can't be more than 10");
+  }
+  return isEditAllowed;
 };
 module.exports = { validateSignUpData, validateEditProfileData };
