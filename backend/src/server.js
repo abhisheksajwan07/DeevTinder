@@ -2,7 +2,6 @@ const express = require("express");
 require("dotenv").config();
 const connectDB = require("./config/database.js");
 
-const port = process.env.PORT || 3000;
 const app = express();
 const cookieParser = require("cookie-parser");
 
@@ -49,20 +48,22 @@ app.use(cookieParser());
 //   }
 // });
 
-
 const authRouter = require("./routes/auth.routes.js");
 const profileRouter = require("./routes/profile.routes.js");
 const requestRouter = require("./routes/requests.routes.js");
+const userRouter = require("./routes/user.routes.js");
 
+const port = process.env.PORT || 3000;
 app.use("/", authRouter);
 app.use("/", profileRouter);
 app.use("/", requestRouter);
+app.use("/", userRouter);
 
 connectDB()
   .then(() => {
     console.log("db connected");
     app.listen(port, () => {
-      console.log("server is succesffully listening on port "+ port);
+      console.log("server is succesffully listening on port " + port);
     });
   })
   .catch((err) => console.error("db error"));
