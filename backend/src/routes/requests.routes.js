@@ -78,7 +78,14 @@ requestRouter.post(
       }
       connectionRequest.status = status;
       const data = await connectionRequest.save();
-    } catch (err) {}
+      return res.status(200).json({
+        message: `Request ${status} successfully`,
+        data: data,
+      });
+    } catch (err) {
+      console.error("Error in reviewing request:", err);
+      res.status(500).json({ message: "Internal server error" });
+    }
   }
 );
 module.exports = requestRouter;
