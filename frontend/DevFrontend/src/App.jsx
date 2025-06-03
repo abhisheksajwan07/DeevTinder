@@ -3,14 +3,6 @@ import "./App.css";
 function App() {
   return (
     <>
-      <div className="min-h-screen flex items-center justify-center bg-base-200">
-        <div className="p-10 rounded-box shadow-xl text-center">
-          <h1 className="text-3xl font-bold mb-4 text-primary">
-            Hello DaisyUI
-          </h1>
-          <button className="btn btn-accent">Click Me</button>
-        </div>
-      </div>
       <div className="navbar bg-base-100 shadow-sm">
         <div className="flex-1">
           <a className="btn btn-ghost text-xl">daisyUI</a>
