@@ -42,9 +42,12 @@ authRouter.post("/login", async (req, res) => {
       const token = await user.getJWT();
       // add the token to cookie and send the response back
       res.cookie("token", token, {
+        httpOnly: true,
+        secure: false,
+        sameSite: "Lax",
         expires: new Date(Date.now() + 8 * 3600000),
       });
-      res.send("Login succesfully!");
+      res.send(user);
     } else {
       throw new Error("Invalid credential");
     }

@@ -5,7 +5,12 @@ const connectDB = require("./config/database.js");
 const app = express();
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 app.use(express.json()); //whenver im reading the req.,
 app.use(cookieParser());
 //i want that req's data to be passed into json data

@@ -1,7 +1,9 @@
-import Body from "./Body";
-import NavBar from "./NavBar";
-import Login from "./Login";
-import Profile from "./Profile";
+
+import Body from "./components/Body";
+import Login from "./components/Login";
+
+
+import Profile from "./components/Profile";
 import { Route, Routes } from "react-router-dom";
 
 const App = () => {
