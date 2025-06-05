@@ -1,9 +1,15 @@
-import React from 'react'
+import { useSelector } from "react-redux";
+import EditProfile from "./EditProfile";
 
 const Profile = () => {
+  const user = useSelector((store) => store.user);
   return (
-    <div>Profile</div>
-  )
-}
+    user && (
+      <div className="overflow-auto">
+        <EditProfile user={user} />
+      </div>
+    )
+  );
+};
 
-export default Profile
+export default Profile;
