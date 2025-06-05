@@ -9,6 +9,7 @@ const Login = () => {
   const [password, setPassword] = useState("123456Aa@");
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [error, setError] = useState("");
   const handleLogin = async () => {
     try {
       const res = await axios.post(
@@ -25,7 +26,8 @@ const Login = () => {
       dispatch(addUser(res.data));
       return navigate("/");
     } catch (err) {
-      console.log(err);
+      setError(err?.response?.data|| "Something went wrong");
+      console.error(err);
     }
   };
 
@@ -38,7 +40,7 @@ const Login = () => {
             <legend className="fieldset-legend my-2">EmailId:</legend>
             <input
               type="text"
-              className="input my-2 max-w-xs border-none"
+              className="input my-1 max-w-xs border-none"
               placeholder="Type emailId here"
               value={emailId}
               onChange={(e) => setEmailId(e.target.value)}
@@ -47,12 +49,13 @@ const Login = () => {
             <legend className="fieldset-legend my-2">Password:</legend>
             <input
               type="text"
-              className="input my-2 max-w-xs border-none"
+              className="input my-1 max-w-xs border-none"
               placeholder="*******"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
           </fieldset>
+          <p className="text-red-500 mb-1">{error} </p>
           <div className="card-actions justify-center">
             <button
               className="btn btn-primary text-center"
