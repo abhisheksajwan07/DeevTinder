@@ -11,10 +11,12 @@ const NavBar = () => {
   // console.log(user);
   const handleLogout = async () => {
     try {
-      await axios.post(BASE_URL + "/logout", { withCredentials: true });
+      await axios.post(BASE_URL + "/logout", {}, { withCredentials: true });
       dispatch(removeUser());
       return navigate("/login");
-    } catch (err) {}
+    } catch (err) {
+      console.error("Logout failed:", err.message);
+    }
   };
   return (
     <div className="navbar bg-base-100 shadow-sm">
@@ -43,13 +45,31 @@ const NavBar = () => {
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
             >
               <li>
-                <Link to="/profile" className="justify-between">
+                <Link
+                  to="/profile"
+                  className="justify-between"
+                  onClick={() => {
+                    // dropdown band karne ke liye blur
+                    setTimeout(() => {
+                      document.activeElement.blur();
+                    }, 100); // 100ms delay for smoothness
+                  }}
+                >
                   Profile
                   <span className="badge">New</span>
                 </Link>
               </li>
               <li>
-                <a>Settings</a>
+                <Link to="/connections"
+                  onClick={() => {
+                    // dropdown band karne ke liye blur
+                    setTimeout(() => {
+                      document.activeElement.blur();
+                    }, 100); // 100ms delay for smoothness
+                  }}
+                >
+                  Connections
+                </Link>
               </li>
               <li>
                 <a onClick={handleLogout}>Logout</a>
