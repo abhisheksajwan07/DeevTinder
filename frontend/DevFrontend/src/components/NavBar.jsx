@@ -70,6 +70,16 @@ const NavBar = () => {
                 >
                   Connections
                 </Link>
+                 <Link to="/requests"
+                  onClick={() => {
+                    // dropdown band karne ke liye blur
+                    setTimeout(() => {
+                      document.activeElement.blur();
+                    }, 100); // 100ms delay for smoothness
+                  }}
+                >
+                  Connections Request
+                </Link>
               </li>
               <li>
                 <a onClick={handleLogout}>Logout</a>

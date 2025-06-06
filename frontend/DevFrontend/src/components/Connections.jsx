@@ -24,13 +24,13 @@ const Connections = () => {
   if (!connections) return;
   if (connections.length === 0) return <h1>No connection found</h1>;
   return (
-    <div className="  my-10">
+    <div className=" max-h-[500px] overflow-y-auto  my-10">
       <h1 className="text-2xl text-bold text-white text-center">Connections</h1>
       {connections.map((connection) => {
         const { firstName, lastName, photoUrl, age, gender, about } =
           connection;
         return (
-          <div className="flex m-4 p-4 rounded-lg bg-base-300 max-w-1/2 mx-auto">
+          <div className="flex m-4 p-4 rounded-lg bg-base-300 max-w-1/2 mx-auto ">
             <div>
               <img
                 alt="photo"
