@@ -1,3 +1,4 @@
 /backend/node_modules
 /frontend/TinderDevFrontend/node_modules
 .env
+/frontend/devfrontend/dist
