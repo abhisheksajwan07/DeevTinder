@@ -46,7 +46,7 @@ requestRouter.post(
 
       const subject = `${user.firstName} is ${status} in ${toUser.firstName}`;
       const body = `${user.firstName} has sent you a connection request and is ${status}.`;
-      const toEmail = toUser.email; // jo user ko email bhejna hai
+      const toEmail = toUser.emailId; // jo user ko email bhejna hai
 
       const emailRes = await sendEmail.run(subject, body, toEmail);
       console.log(emailRes);
