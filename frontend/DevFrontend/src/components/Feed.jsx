@@ -7,6 +7,7 @@ import axios from "axios";
 import UserCard from "./UserCard";
 const Feed = () => {
   const feed = useSelector((store) => store.feed);
+  const user = useSelector((store)=> store.user)
 
   const dispatch = useDispatch();
   const getFeed = async () => {
@@ -24,7 +25,7 @@ const Feed = () => {
   };
   useEffect(() => {
     getFeed();
-  }, []);
+  }, [user]);
   if(!feed) return;
   if(feed.length <= 0){
     return <h1 className="flex justify-center my-10">No User Found!!</h1>
