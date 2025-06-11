@@ -6,6 +6,7 @@ import Login from "./components/Login";
 
 import Profile from "./components/Profile";
 import { Route, Routes } from "react-router-dom";
+import Premium from "./components/Premium";
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
           <Route path="/profile" element={<Profile />} />
           <Route path="/connections" element={<Connections/>} />
           <Route path="/requests" element={<Requests/>} />
+          <Route path="/premium" element={<Premium/>} />
         </Route>
       </Routes>
     </>

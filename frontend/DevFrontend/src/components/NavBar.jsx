@@ -60,7 +60,8 @@ const NavBar = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/connections"
+                <Link
+                  to="/connections"
                   onClick={() => {
                     // dropdown band karne ke liye blur
                     setTimeout(() => {
@@ -70,7 +71,8 @@ const NavBar = () => {
                 >
                   Connections
                 </Link>
-                 <Link to="/requests"
+                <Link
+                  to="/requests"
                   onClick={() => {
                     // dropdown band karne ke liye blur
                     setTimeout(() => {
@@ -79,6 +81,17 @@ const NavBar = () => {
                   }}
                 >
                   Connections Request
+                </Link>
+                <Link
+                  to="/premiun"
+                  onClick={() => {
+                    // dropdown band karne ke liye blur
+                    setTimeout(() => {
+                      document.activeElement.blur();
+                    }, 100); // 100ms delay for smoothness
+                  }}
+                >
+                  Premium
                 </Link>
               </li>
               <li>
