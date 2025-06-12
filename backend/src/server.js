@@ -19,12 +19,14 @@ const authRouter = require("./routes/auth.routes.js");
 const profileRouter = require("./routes/profile.routes.js");
 const requestRouter = require("./routes/requests.routes.js");
 const userRouter = require("./routes/user.routes.js");
+const paymentRouter = require("./routes/payment.routes.js");
 
 const port = process.env.PORT || 3000;
 app.use("/", authRouter);
 app.use("/", profileRouter);
 app.use("/", requestRouter);
 app.use("/", userRouter);
+app.use("/", paymentRouter);
 
 connectDB()
   .then(() => {
