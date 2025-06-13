@@ -83,7 +83,7 @@ const NavBar = () => {
                   Connections Request
                 </Link>
                 <Link
-                  to="/premiun"
+                  to="/premium"
                   onClick={() => {
                     // dropdown band karne ke liye blur
                     setTimeout(() => {
