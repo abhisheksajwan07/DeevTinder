@@ -7,6 +7,7 @@ import Login from "./components/Login";
 import Profile from "./components/Profile";
 import { Route, Routes } from "react-router-dom";
 import Premium from "./components/Premium";
+import Chat from "./components/Chat";
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
           <Route path="/connections" element={<Connections/>} />
           <Route path="/requests" element={<Requests/>} />
           <Route path="/premium" element={<Premium/>} />
+          <Route path="/chat/:targetUserId" element={<Chat/>} />
         </Route>
       </Routes>
     </>
