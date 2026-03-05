@@ -1,14 +1,11 @@
 const cron = require("node-cron");
 const { subDays, startOfDay, endOfDay } = require("date-fns");
-const sendEmail = require("./sendEmail");
 const connectionRequest = require("../models/connectionRequest.model");
 
-// This job will run at 8 AM in the morning everyday
+// This job runs at 8 AM every day and logs users with pending requests
 cron.schedule("0 8 * * *", async () => {
-  // Send emails to all people who got requests the previous day
   try {
     const yesterday = subDays(new Date(), 1);
-
     const yesterdayStart = startOfDay(yesterday);
     const yesterdayEnd = endOfDay(yesterday);
 
@@ -26,22 +23,14 @@ cron.schedule("0 8 * * *", async () => {
       ...new Set(pendingRequests.map((req) => req.toUserId.emailId)),
     ];
 
-    console.log(listOfEmails);
+    console.log(
+      `[CronJob] ${listOfEmails.length} user(s) have pending connection requests:`,
+      listOfEmails
+    );
 
-    for (const email of listOfEmails) {
-      // Send Emails
-      try {
-        const res = await sendEmail.run(
-          "New Friend Requests pending for " + email,
-          "Ther eare so many frined reuests pending, please login to DevTinder.in and accept or reject the reqyests.",
-          email
-        );
-        console.log(res);
-      } catch (err) {
-        console.log(err);
-      }
-    }
+    // NOTE: Email sending is handled outside this service.
+    // Integrate your preferred email provider here if needed.
   } catch (err) {
-    console.error(err);
+    console.error("[CronJob] Error:", err);
   }
 });

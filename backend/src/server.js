@@ -1,45 +1,46 @@
 const express = require("express");
 require("dotenv").config();
 const connectDB = require("./config/database.js");
-
-const app = express();
 const cors = require("cors");
 const http = require("http");
 const cookieParser = require("cookie-parser");
 require("./utils/cronJob.js");
+
+const app = express();
+
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: process.env.CORS_ORIGIN || "http://localhost:5173",
     credentials: true,
   })
 );
-app.use(express.json()); //whenver im reading the req.,
+app.use(express.json());
 app.use(cookieParser());
-//i want that req's data to be passed into json data
 
 const authRouter = require("./routes/auth.routes.js");
 const profileRouter = require("./routes/profile.routes.js");
 const requestRouter = require("./routes/requests.routes.js");
 const userRouter = require("./routes/user.routes.js");
 const paymentRouter = require("./routes/payment.routes.js");
-const initializeSocket = require("./utils/sockets.js");
 const chatRouter = require("./routes/chats.routes.js");
+const initializeSocket = require("./utils/sockets.js");
 
-const port = process.env.PORT || 3000;
 app.use("/", authRouter);
 app.use("/", profileRouter);
 app.use("/", requestRouter);
 app.use("/", userRouter);
 app.use("/", paymentRouter);
-app.use("/",chatRouter)
+app.use("/", chatRouter);
 
+const port = process.env.PORT || 3000;
 const server = http.createServer(app);
 initializeSocket(server);
+
 connectDB()
   .then(() => {
-    console.log("db connected");
+    console.log("Database connected");
     server.listen(port, () => {
-      console.log("server is succesffully listening on port " + port);
+      console.log(`Server running on port ${port}`);
     });
   })
-  .catch((err) => console.error("db error"));
+  .catch((err) => console.error("Database connection error:", err.message));
