@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import UserCard from "./UserCard";
 import { BASE_URL } from "../utils/constants";
 import { addUser } from "../utils/userSlice";
@@ -10,146 +9,142 @@ const EditProfile = ({ user }) => {
   const [firstName, setFirstName] = useState(user.firstName);
   const [lastName, setLastName] = useState(user.lastName);
   const [photoUrl, setPhotoUrl] = useState(user.photoUrl || "");
-  const [age, setAge] = useState(user.age  || "");
+  const [age, setAge] = useState(user.age || "");
   const [gender, setGender] = useState(user.gender || "");
   const [about, setAbout] = useState(user.about || "");
   const [error, setError] = useState("");
-  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
   const [showToast, setShowToast] = useState(false);
+  const dispatch = useDispatch();
 
   const saveProfile = async () => {
+    setLoading(true);
+    setError("");
     try {
       const res = await axios.patch(
         BASE_URL + "/profile/edit",
         { firstName, lastName, photoUrl, age, gender, about },
         { withCredentials: true }
       );
-      console.log(res);
       dispatch(addUser(res?.data?.data));
       setShowToast(true);
-      setTimeout(() => {
-        setShowToast(false);
-      }, 3000);
+      setTimeout(() => setShowToast(false), 3000);
     } catch (err) {
-      setError(err.response.data);
+      setError(err?.response?.data || "Failed to save profile.");
+    } finally {
+      setLoading(false);
     }
   };
+
+  const inputClass =
+    "w-full bg-[#1a1a1a] border border-[#333] rounded-lg px-4 py-2.5 text-white placeholder-gray-600 focus:outline-none focus:border-white transition-colors text-sm";
+  const labelClass = "block text-sm text-gray-400 mb-1";
+
   return (
-    <>
-      <div className="flex justify-center my-10 pb-20 ">
-        <div className="flex justify-center  overflow-y-auto ">
-          <div className="flex justify-center mx-10">
-            <div className="card bg-base-300 w-96 shadow-xl">
-              <div className="card-body">
-                <h2 className="card-title justify-center">Edit Profile</h2>
+    <div className="max-w-5xl mx-auto py-10 px-4">
+      <h1 className="text-2xl font-bold text-white mb-8">Edit Profile</h1>
 
-                <label className="form-control w-full max-w-xs my-2">
-                  <div className="label">
-                    <span className="label-text  pb-1">First Name:</span>
-                  </div>
-                  <input
-                    type="text"
-                    value={firstName}
-                    onChange={(e) => {
-                      setFirstName(e.target.value);
-                    }}
-                    className="input input-bordered w-full border-none max-w-xs"
-                  />
-                </label>
-
-                <label className="form-control w-full max-w-xs my-2">
-                  <div className="label">
-                    <span className="label-text  pb-1">Last Name:</span>
-                  </div>
-                  <input
-                    type="text"
-                    value={lastName}
-                    onChange={(e) => {
-                      setLastName(e.target.value);
-                    }}
-                    className="input input-bordered w-full border-none max-w-xs"
-                  />
-                </label>
-
-                <label className="form-control w-full max-w-xs my-2">
-                  <div className="label">
-                    <span className="label-text pb-1">Photo URL:</span>
-                  </div>
-                  <input
-                    value={photoUrl}
-                    onChange={(e) => {
-                      setPhotoUrl(e.target.value);
-                    }}
-                    type="text"
-                    className="input input-bordered border-none w-full max-w-xs"
-                  />
-                </label>
-
-                <label className="form-control w-full max-w-xs my-2">
-                  <div className="label">
-                    <span className="label-text pb-1">Age:</span>
-                  </div>
-                  <input
-                    type="text"
-                    value={age}
-                    onChange={(e) => {
-                      setAge(e.target.value);
-                    }}
-                    className="input input-bordered border-none w-full max-w-xs"
-                  />
-                </label>
-
-                <label className="form-control w-full max-w-xs my-2">
-                  <div className="label">
-                    <span className="label-text pb-1">Gender:</span>
-                  </div>
-                  <select
-                    value={gender}
-                    onChange={(e) => setGender(e.target.value)}
-                    className="input input-bordered w-full max-w-xs"
-                  >
-                    <option value="">Select Gender</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="others">Other</option>
-                  </select>
-                </label>
-
-                <label className="form-control w-full max-w-xs my-2">
-                  <div className="label">
-                    <span className="label-text pb-1">About:</span>
-                  </div>
-                  <input
-                    type="text"
-                    value={about}
-                    onChange={(e) => {
-                      setAbout(e.target.value);
-                    }}
-                    className="input input-bordered  border-none w-full max-w-xs"
-                  />
-                </label>
-                <p className="text-red-500">{error}</p>
-                <div className="card-actions justify-center m-2">
-                  <button className="btn btn-primary" onClick={saveProfile}>
-                    Save Profile
-                  </button>
-                </div>
+      <div className="flex flex-col lg:flex-row gap-8">
+        {/* Form */}
+        <div className="flex-1 bg-[#111] border border-[#222] rounded-2xl p-8">
+          <div className="space-y-5">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className={labelClass}>First Name</label>
+                <input
+                  type="text"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  placeholder="John"
+                  className={inputClass}
+                />
+              </div>
+              <div>
+                <label className={labelClass}>Last Name</label>
+                <input
+                  type="text"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  placeholder="Doe"
+                  className={inputClass}
+                />
               </div>
             </div>
+
+            <div>
+              <label className={labelClass}>Photo URL</label>
+              <input
+                type="text"
+                value={photoUrl}
+                onChange={(e) => setPhotoUrl(e.target.value)}
+                placeholder="https://example.com/photo.jpg"
+                className={inputClass}
+              />
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className={labelClass}>Age</label>
+                <input
+                  type="number"
+                  value={age}
+                  onChange={(e) => setAge(e.target.value)}
+                  placeholder="25"
+                  className={inputClass}
+                />
+              </div>
+              <div>
+                <label className={labelClass}>Gender</label>
+                <select
+                  value={gender}
+                  onChange={(e) => setGender(e.target.value)}
+                  className={inputClass}
+                >
+                  <option value="">Select</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="others">Other</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label className={labelClass}>About</label>
+              <textarea
+                value={about}
+                onChange={(e) => setAbout(e.target.value)}
+                placeholder="Tell other developers about yourself..."
+                rows={3}
+                className={`${inputClass} resize-none`}
+              />
+            </div>
+
+            {error && <p className="text-red-400 text-sm">{error}</p>}
+
+            <button
+              onClick={saveProfile}
+              disabled={loading}
+              className="w-full bg-white text-black font-semibold py-2.5 rounded-lg hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {loading ? "Saving..." : "Save Profile"}
+            </button>
           </div>
         </div>
-        <UserCard
-          user={{ firstName, lastName, photoUrl, age, gender, about }}
-        />
+
+        {/* Preview */}
+        <div className="flex flex-col items-center">
+          <p className="text-gray-500 text-xs uppercase tracking-widest mb-4 font-medium">Preview</p>
+          <UserCard user={{ firstName, lastName, photoUrl, age, gender, about }} />
+        </div>
       </div>
+
+      {/* Toast */}
       {showToast && (
-        <div className="toast toast-top toast-center">
-          <div className="alert alert-success">
-            <span>Profile Saved successfully.</span>
-          </div>
+        <div className="fixed bottom-24 left-1/2 -translate-x-1/2 bg-white text-black text-sm font-medium px-6 py-3 rounded-full shadow-lg z-50">
+          ✓ Profile saved successfully
         </div>
       )}
-    </>
+    </div>
   );
 };
 
