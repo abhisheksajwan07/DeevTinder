@@ -2,33 +2,46 @@ const socket = require("socket.io");
 const crypto = require("crypto");
 const ConnectionRequest = require("../models/connectionRequest.model");
 const { Chat } = require("../models/chat.model");
+
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://deev-tinder.vercel.app"
+];
+
 const getSecretRoomId = (userId, targetUserId) => {
   return crypto
     .createHash("sha256")
     .update([userId, targetUserId].sort().join("_"))
     .digest("hex");
 };
+
 const initializeSocket = (server) => {
   const io = socket(server, {
     cors: {
-      origin: "http://localhost:5173",
+      origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin)) {
+          callback(null, true);
+        } else {
+          callback(new Error("Not allowed by CORS"));
+        }
+      },
+      credentials: true,
     },
   });
+
   io.on("connection", (socket) => {
     socket.on("joinchat", ({ firstName, userId, targetUserId }) => {
       const roomId = getSecretRoomId(userId, targetUserId);
       console.log(firstName + " joined Room : " + roomId);
       socket.join(roomId);
     });
+
     socket.on(
       "sendMessage",
       async ({ firstName, lastName, userId, targetUserId, text }) => {
-        // Save messages to the database
         try {
           const roomId = getSecretRoomId(userId, targetUserId);
           console.log(firstName + " " + text);
-
-          // TODO: Check if userId & targetUserId are friends
 
           let chat = await Chat.findOne({
             participants: { $all: [userId, targetUserId] },
@@ -53,7 +66,9 @@ const initializeSocket = (server) => {
         }
       }
     );
+
     socket.on("disconnect", () => {});
   });
 };
+
 module.exports = initializeSocket;
