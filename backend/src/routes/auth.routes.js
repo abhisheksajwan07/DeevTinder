@@ -27,8 +27,8 @@ authRouter.post("/signup", async (req, res) => {
     // add the token to cookie and send the response back
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false,
-      sameSite: "Lax",
+      secure: isProduction,
+      sameSite: isProduction ? "None" : "Lax",
       expires: new Date(Date.now() + 8 * 3600000),
     });
 
@@ -51,9 +51,9 @@ authRouter.post("/login", async (req, res) => {
       // add the token to cookie and send the response back
       res.cookie("token", token, {
         httpOnly: true,
-        secure: false,
-        sameSite: "Lax",
-        expires: new Date(Date.now() + 8 * 3600000),
+        secure: isProduction,
+        sameSite: isProduction ? "None" : "Lax",
+        expires: new Date(Date.now()),
       });
       res.send(user);
     } else {
