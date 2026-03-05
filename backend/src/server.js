@@ -10,7 +10,7 @@ const app = express();
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://deev-tinder.vercel.app"
+  "https://deev-tinder.vercel.app",
 ];
 
 app.use(
@@ -23,11 +23,15 @@ app.use(
       }
     },
     credentials: true,
-  })
+  }),
 );
 
 app.use(express.json());
 app.use(cookieParser());
+
+app.get("/", (req, res) => {
+  res.send("DeevTinder Backend is Running! 🚀");
+});
 
 const authRouter = require("./routes/auth.routes.js");
 const profileRouter = require("./routes/profile.routes.js");
