@@ -7,6 +7,9 @@ const User = require("../models/user.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
+
+
+const isProduction = process.env.NODE_ENV === "production";
 authRouter.post("/signup", async (req, res) => {
   try {
     //validation of data
