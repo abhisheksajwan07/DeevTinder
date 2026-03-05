@@ -1,6 +1,10 @@
 # 🧠 DevTinder: A Social Networking Platform
 DevTinder is a comprehensive social networking platform designed to connect developers and professionals worldwide. It provides a seamless user experience, enabling users to create profiles, connect with others, and engage in meaningful discussions. The platform is built using cutting-edge technologies, ensuring scalability, security, and performance.
 
+## 🌐 Live Demo
+- **Frontend:** https://deev-tinder.vercel.app
+- **Backend:** https://deevtinder.onrender.com
+- 
 ## 🚀 Features
 - **User Profiles:** Create and manage professional profiles, showcasing skills, experience, and achievements.
 - **Connection Management:** Send and receive connection requests, building a network of like-minded professionals.
